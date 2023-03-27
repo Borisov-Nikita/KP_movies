@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">KP movies</string>
+    <string name="kp">KP</string>
+    <string name="imdb">IMDB</string>
+    <string name="movies">Movies</string>
+    <string name="tv_series">TV series</string>
+    <string name="anime">Anime</string>
+    <string name="cartoons">Cartoons</string>
+    <string name="animated_series">Animated series</string>
+    <string name="go_back_button">Go back</string>
 </resources>

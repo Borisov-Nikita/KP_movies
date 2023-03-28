@@ -11,5 +11,5 @@ interface Repository {
 
     suspend fun getMovie(movieId: Int): Movie
 
-    suspend fun getReviews(movieId: Int): List<Review>
+    suspend fun getReviews(movieId: Int, page: Int): List<Review>
 }

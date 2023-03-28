@@ -31,11 +31,14 @@ class RepositoryImpl : Repository {
     }
 
     override suspend fun getMovie(movieId: Int): Movie {
-        return mapper.mapMovieDtoToEntity(apiService.loadMovie(movieId))
+        return mapper.mapMovieDtoToEntity(
+            apiService.loadMovie(movieId),
+            apiService.loadReviews(movieId)
+        )
     }
 
-    override suspend fun getReviews(movieId: Int): List<Review> {
-        return apiService.loadReviews(movieId).reviews.map {
+    override suspend fun getReviews(movieId: Int, page: Int): List<Review> {
+        return apiService.loadReviews(movieId, page).reviews.map {
             mapper.mapReviewDtoToEntity(it)
         }
     }

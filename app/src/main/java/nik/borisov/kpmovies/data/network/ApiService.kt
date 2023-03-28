@@ -15,11 +15,17 @@ interface ApiService {
         @Query("page") page: Int,
         @Query("limit") limit: Int,
         @Query("type") type: String
-    ) : MoviePreviewResponse
+    ): MoviePreviewResponse
 
     @GET("v1/movie/{movieId}?token=WZ9AXQF-2FHMMB0-QW6CNAX-JAHXQ6Q")
-    suspend fun loadMovie(@Path("movieId") movieId: Int) : MovieDto
+    suspend fun loadMovie(@Path("movieId") movieId: Int): MovieDto
 
     @GET("v1/review?token=WZ9AXQF-2FHMMB0-QW6CNAX-JAHXQ6Q")
-    suspend fun loadReviews(@Query("movieId") movieId: Int) : ReviewsResponse
+    suspend fun loadReviews(@Query("movieId") movieId: Int): ReviewsResponse
+
+    @GET("v1/review?token=WZ9AXQF-2FHMMB0-QW6CNAX-JAHXQ6Q&sortField=date&sortType=-1&limit=20")
+    suspend fun loadReviews(
+        @Query("movieId") movieId: Int,
+        @Query("page") page: Int
+    ): ReviewsResponse
 }

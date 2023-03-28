@@ -11,4 +11,4 @@ data class Review(
     val review: String,
     val date: String,
     val author: String
-)
+) : java.io.Serializable

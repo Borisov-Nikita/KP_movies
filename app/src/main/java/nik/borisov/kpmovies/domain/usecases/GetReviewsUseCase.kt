@@ -4,10 +4,10 @@ import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.domain.repositories.Repository
 
 class GetReviewsUseCase(
-    val repository: Repository
+    private val repository: Repository
 ) {
 
-    suspend fun getReviews(movieId: Int): List<Review> {
-        return repository.getReviews(movieId)
+    suspend fun getReviews(movieId: Int, page: Int): List<Review> {
+        return repository.getReviews(movieId, page)
     }
 }

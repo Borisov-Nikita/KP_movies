@@ -1,6 +1,6 @@
 package nik.borisov.kpmovies.presentation.adapters
 
-import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import nik.borisov.kpmovies.R
@@ -24,19 +24,20 @@ fun setupRating(textView: TextView, rating: Double) {
     textView.visibility = TextView.VISIBLE
 }
 
-fun setupReviewType(view: View, type: ReviewType) {
+fun setupReviewType(imageView: ImageView, type: ReviewType) {
     val backgroundId = when (type) {
         ReviewType.TYPE_POSITIVE -> {
-            ContextCompat.getColor(view.context, android.R.color.holo_green_light)
+            R.drawable.rating_green
         }
         ReviewType.TYPE_NEGATIVE -> {
-            ContextCompat.getColor(view.context, android.R.color.holo_red_light)
+            R.drawable.rating_red
         }
         ReviewType.TYPE_NEUTRAL -> {
-            ContextCompat.getColor(view.context, android.R.color.darker_gray)
+            R.drawable.rating_gray
         }
     }
-    view.setBackgroundColor(backgroundId)
+    val background = ContextCompat.getDrawable(imageView.context, backgroundId)
+    imageView.background = background
 }
 
 fun setupReviewDate(textView: TextView, date: String) {

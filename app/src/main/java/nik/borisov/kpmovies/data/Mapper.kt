@@ -9,7 +9,7 @@ import nik.borisov.kpmovies.domain.entities.Trailer
 
 class Mapper {
 
-    fun mapMovieDtoToEntity(movieDto: MovieDto): Movie {
+    fun mapMovieDtoToEntity(movieDto: MovieDto, reviewsResponse: ReviewsResponse): Movie {
         return Movie(
             id = movieDto.id,
             name = movieDto.name,
@@ -21,7 +21,8 @@ class Mapper {
             poster = movieDto.poster.url,
             genres = mapGenres(movieDto.genres),
             countries = mapCountries(movieDto.countries),
-            trailers = mapTrailers(movieDto.trailersResponse)
+            trailers = mapTrailers(movieDto.trailersResponse),
+            reviews = reviewsResponse.reviews.map { mapReviewDtoToEntity(it) }
         )
     }
 

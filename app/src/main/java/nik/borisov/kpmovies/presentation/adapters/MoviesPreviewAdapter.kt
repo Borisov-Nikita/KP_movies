@@ -11,6 +11,7 @@ class MoviesPreviewAdapter :
     ListAdapter<MoviePreview, MoviePreviewViewHolder>(MoviesPreviewDiffCallback()) {
 
     var onReachEndListener: (() -> Unit)? = null
+    var onMoviePreviewClickListener: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviePreviewViewHolder {
         val binding = MoviePreviewItemBinding.inflate(
@@ -29,6 +30,9 @@ class MoviesPreviewAdapter :
             .into(holder.binding.ivPoster)
         val rating = moviePreview.rating
         setupRating(holder.binding.tvRatingKp, rating)
+        holder.binding.cvMoviePreview.setOnClickListener {
+            onMoviePreviewClickListener?.invoke(moviePreview.id)
+        }
         if (position == currentList.size - 1) {
             onReachEndListener?.invoke()
         }

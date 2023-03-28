@@ -3,6 +3,7 @@ package nik.borisov.kpmovies.data
 import nik.borisov.kpmovies.data.network.ApiFactory
 import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.domain.entities.MoviePreview
+import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.domain.repositories.Repository
 
 class RepositoryImpl : Repository {
@@ -23,13 +24,19 @@ class RepositoryImpl : Repository {
             limit,
             type.type
         ).movies.map {
-            mapper.mapMoviePreviewApiModelToEntity(it)
+            mapper.mapMoviePreviewDtoToEntity(it)
         })
         cache.cache[type.type] = moviePreviewList
         return moviePreviewList.toList()
     }
 
     override suspend fun getMovie(movieId: Int): Movie {
-        return mapper.mapMovieApiModelToEntity(apiService.loadMovie(movieId))
+        return mapper.mapMovieDtoToEntity(apiService.loadMovie(movieId))
+    }
+
+    override suspend fun getReviews(movieId: Int): List<Review> {
+        return apiService.loadReviews(movieId).reviews.map {
+            mapper.mapReviewDtoToEntity(it)
+        }
     }
 }

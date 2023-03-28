@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvMoviePreview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
@@ -29,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="ivPoster"/>
+            app:constraint_referenced_ids="ivPoster" />
 
         <TextView
             android:id="@+id/tvRatingKp"
@@ -53,8 +54,8 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tvMovieYear"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Movie name" />
 
         <TextView
@@ -64,8 +65,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/tvMovieGenre"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieName"
             app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieName"
             tools:text="(1990)" />
 
         <TextView
@@ -73,10 +74,12 @@
             style="@style/tvMovieDescriptionStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             app:layout_constraintBottom_toTopOf="@+id/tvMovieCountry"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieYear"
             app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieYear"
             tools:text="Western" />
 
         <TextView
@@ -86,8 +89,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/tvMovieLength"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieGenre"
             app:layout_constraintStart_toEndOf="@id/barrier"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieGenre"
             tools:text="USA" />
 
         <TextView
@@ -97,8 +102,8 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvMovieCountry"
             app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toBottomOf="@+id/tvMovieCountry"
             tools:text="2:15" />
 
 

@@ -58,6 +58,10 @@ class CategoryPreviewActivity : AppCompatActivity() {
         adapter.onReachEndListener = {
             viewModel.getMoviesPreview(movieType)
         }
+        adapter.onMoviePreviewClickListener = {
+            val intent = MovieDetailActivity.newIntent(this, it)
+            startActivity(intent)
+        }
     }
 
     private fun observeViewModel() {

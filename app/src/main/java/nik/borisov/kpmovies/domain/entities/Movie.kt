@@ -11,5 +11,5 @@ data class Movie(
     val poster: String,
     val genres: List<String>,
     val countries: List<String>,
-    val trailerList: Map<String, String>
+    val trailers: List<Trailer>
 )

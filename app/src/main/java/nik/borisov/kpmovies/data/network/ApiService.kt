@@ -1,7 +1,8 @@
 package nik.borisov.kpmovies.data.network
 
-import nik.borisov.kpmovies.data.network.entities.MovieApiModel
+import nik.borisov.kpmovies.data.network.entities.MovieDto
 import nik.borisov.kpmovies.data.network.entities.MoviePreviewResponse
+import nik.borisov.kpmovies.data.network.entities.ReviewsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -17,5 +18,8 @@ interface ApiService {
     ) : MoviePreviewResponse
 
     @GET("v1/movie/{movieId}?token=WZ9AXQF-2FHMMB0-QW6CNAX-JAHXQ6Q")
-    suspend fun loadMovie(@Path("movieId") movieId: Int) : MovieApiModel
+    suspend fun loadMovie(@Path("movieId") movieId: Int) : MovieDto
+
+    @GET("v1/review?token=WZ9AXQF-2FHMMB0-QW6CNAX-JAHXQ6Q")
+    suspend fun loadReviews(@Query("movieId") movieId: Int) : ReviewsResponse
 }

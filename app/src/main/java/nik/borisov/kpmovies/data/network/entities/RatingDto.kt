@@ -2,8 +2,8 @@ package nik.borisov.kpmovies.data.network.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class TrailerList(
+data class RatingDto(
 
-    @SerializedName("trailers")
-    val trailers: List<Trailer>
+    @SerializedName("kp")
+    val kp: Double
 )

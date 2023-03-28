@@ -11,6 +11,7 @@ class CategoryPreviewAdapter :
     ListAdapter<MoviePreview, CategoryPreviewViewHolder>(MoviesPreviewDiffCallback()) {
 
     var onReachEndListener: (() -> Unit)? = null
+    var onMoviePreviewClickListener: ((Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryPreviewViewHolder {
         val binding = MovieCategoryPreviewItemBinding.inflate(
@@ -38,9 +39,10 @@ class CategoryPreviewAdapter :
                 moviePreview.movieLength / MIN_IN_HOUR,
                 moviePreview.movieLength % MIN_IN_HOUR
             )
+            cvMoviePreview.setOnClickListener {
+                onMoviePreviewClickListener?.invoke(moviePreview.id)
+            }
         }
-
-
         if (position == currentList.size - 1) {
             onReachEndListener?.invoke()
         }

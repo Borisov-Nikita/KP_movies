@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity() {
         adapterMovies.onReachEndListener = {
             viewModel.getMoviesPreview(MovieType.TYPE_MOVIE)
         }
+        adapterMovies.onMoviePreviewClickListener = {
+            val intent = MovieDetailActivity.newIntent(this, it)
+            startActivity(intent)
+        }
 
         val tvSeriesRecyclerView = binding.rvSerialsPreview
         tvSeriesRecyclerView.adapter = adapterTvSeries
@@ -54,6 +58,10 @@ class MainActivity : AppCompatActivity() {
         )
         adapterTvSeries.onReachEndListener = {
             viewModel.getMoviesPreview(MovieType.TYPE_TV_SERIES)
+        }
+        adapterTvSeries.onMoviePreviewClickListener = {
+            val intent = MovieDetailActivity.newIntent(this, it)
+            startActivity(intent)
         }
 
         val cartoonsRecyclerView = binding.rvCartoonsPreview
@@ -66,6 +74,10 @@ class MainActivity : AppCompatActivity() {
         adapterCartoons.onReachEndListener = {
             viewModel.getMoviesPreview(MovieType.TYPE_CARTOON)
         }
+        adapterCartoons.onMoviePreviewClickListener = {
+            val intent = MovieDetailActivity.newIntent(this, it)
+            startActivity(intent)
+        }
 
         val animeRecyclerView = binding.rvAnimePreview
         animeRecyclerView.adapter = adapterAnime
@@ -77,6 +89,10 @@ class MainActivity : AppCompatActivity() {
         adapterAnime.onReachEndListener = {
             viewModel.getMoviesPreview(MovieType.TYPE_ANIME)
         }
+        adapterAnime.onMoviePreviewClickListener = {
+            val intent = MovieDetailActivity.newIntent(this, it)
+            startActivity(intent)
+        }
 
         val animatedSeriesRecyclerView = binding.rvAnimatedSeriesPreview
         animatedSeriesRecyclerView.adapter = adapterAnimatedSeries
@@ -87,6 +103,10 @@ class MainActivity : AppCompatActivity() {
         )
         adapterAnimatedSeries.onReachEndListener = {
             viewModel.getMoviesPreview(MovieType.TYPE_ANIMATED_SERIES)
+        }
+        adapterAnimatedSeries.onMoviePreviewClickListener = {
+            val intent = MovieDetailActivity.newIntent(this, it)
+            startActivity(intent)
         }
     }
 

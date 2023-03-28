@@ -8,4 +8,7 @@
     <string name="cartoons">Cartoons</string>
     <string name="animated_series">Animated series</string>
     <string name="go_back_button">Go back</string>
+    <string name="play_trailer_button">Play trailer</string>
+    <string name="trailers">Trailers</string>
+    <string name="review">Review</string>
 </resources>

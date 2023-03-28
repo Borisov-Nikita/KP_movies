@@ -2,7 +2,7 @@ package nik.borisov.kpmovies.data.network.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class MoviePreviewApiModel(
+data class MovieDto(
 
     @SerializedName("id")
     val id: Int,
@@ -12,14 +12,18 @@ data class MoviePreviewApiModel(
     val type: String,
     @SerializedName("year")
     val year: Int,
+    @SerializedName("description")
+    val description: String,
     @SerializedName("rating")
-    val rating: Rating,
+    val rating: RatingDto,
     @SerializedName("movieLength")
     val movieLength: Int,
     @SerializedName("poster")
-    val poster: Poster,
+    val poster: PosterDto,
     @SerializedName("genres")
-    val genres: List<Genre>,
+    val genres: List<GenreDto>,
     @SerializedName("countries")
-    val countries: List<Country>
+    val countries: List<CountryDto>,
+    @SerializedName("videos")
+    val trailersResponse: TrailersResponse
 )

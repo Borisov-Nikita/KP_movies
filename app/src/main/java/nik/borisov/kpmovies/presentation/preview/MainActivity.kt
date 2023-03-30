@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation
+package nik.borisov.kpmovies.presentation.preview
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import nik.borisov.kpmovies.data.MovieType
 import nik.borisov.kpmovies.databinding.ActivityMainBinding
-import nik.borisov.kpmovies.presentation.adapters.MoviesPreviewAdapter
+import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
+import nik.borisov.kpmovies.presentation.preview.adapters.MoviesPreviewAdapter
 
 class MainActivity : AppCompatActivity() {
 

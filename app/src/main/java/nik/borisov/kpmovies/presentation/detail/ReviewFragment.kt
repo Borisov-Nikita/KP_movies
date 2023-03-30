@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation
+package nik.borisov.kpmovies.presentation.detail
 
 import android.os.Build
 import android.os.Bundle

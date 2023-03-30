@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation
+package nik.borisov.kpmovies.presentation.detail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

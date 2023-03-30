@@ -1,10 +1,12 @@
-package nik.borisov.kpmovies.presentation.adapters
+package nik.borisov.kpmovies.presentation.detail.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import nik.borisov.kpmovies.databinding.ReviewItemBinding
 import nik.borisov.kpmovies.domain.entities.Review
+import nik.borisov.kpmovies.presentation.adapters.setupReviewDate
+import nik.borisov.kpmovies.presentation.adapters.setupReviewType
 
 class ReviewsAdapter : ListAdapter<Review, ReviewsViewHolder>(ReviewsDiffCallback()) {
 

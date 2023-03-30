@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation.adapters
+package nik.borisov.kpmovies.presentation.detail.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

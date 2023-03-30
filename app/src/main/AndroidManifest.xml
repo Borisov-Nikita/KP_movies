@@ -14,13 +14,13 @@
         android:theme="@style/Theme.KPMovies"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MovieDetailActivity"
+            android:name=".presentation.detail.MovieDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.CategoryPreviewActivity"
+            android:name=".presentation.preview.CategoryPreviewActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.preview.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation.adapters
+package nik.borisov.kpmovies.presentation.detail.adapters
 
 import androidx.recyclerview.widget.DiffUtil
 import nik.borisov.kpmovies.domain.entities.Trailer

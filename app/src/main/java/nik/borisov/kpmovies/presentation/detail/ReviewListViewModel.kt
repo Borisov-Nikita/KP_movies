@@ -1,6 +1,5 @@
 package nik.borisov.kpmovies.presentation.detail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import kotlinx.coroutines.launch
 import nik.borisov.kpmovies.data.RepositoryImpl
 import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.domain.usecases.GetReviewsUseCase
+import nik.borisov.kpmovies.utils.DataResult
 
 class ReviewListViewModel : ViewModel() {
 
@@ -16,8 +16,8 @@ class ReviewListViewModel : ViewModel() {
 
     private val getReviewsUseCase = GetReviewsUseCase(repository)
 
-    private val _reviews = MutableLiveData<List<Review>>()
-    val reviews: LiveData<List<Review>>
+    private val _reviews = MutableLiveData<DataResult<List<Review>>>()
+    val reviews: LiveData<DataResult<List<Review>>>
         get() = _reviews
 
     private val reviewList = mutableListOf<Review>()
@@ -26,11 +26,13 @@ class ReviewListViewModel : ViewModel() {
 
     fun getReviews(movieId: Int) {
         viewModelScope.launch {
-            reviewList.addAll(getReviewsUseCase.getReviews(movieId, page++))
-            for (review in reviewList) {
-                Log.d("Test", review.author)
+            val result = getReviewsUseCase.getReviews(movieId, page++)
+            if (result is DataResult.Success && result.data != null) {
+                reviewList.addAll(result.data)
+                _reviews.value = DataResult.Success(data = reviewList.toList())
+            } else {
+                _reviews.value = result
             }
-            _reviews.value = reviewList.toList()
         }
     }
 }

@@ -4,6 +4,6 @@ import nik.borisov.kpmovies.domain.entities.MoviePreview
 
 object MoviesPreviewCache {
 
-    var cache = mutableMapOf<String, List<MoviePreview>>(
+    val cache = mutableMapOf<MovieType, List<MoviePreview>>(
     )
 }

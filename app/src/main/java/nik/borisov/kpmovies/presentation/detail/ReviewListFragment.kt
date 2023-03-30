@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.databinding.FragmentReviewListBinding
+import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
+import nik.borisov.kpmovies.utils.DataResult
 
 class ReviewListFragment : Fragment() {
 
@@ -95,7 +97,23 @@ class ReviewListFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.getReviews(movieId)
         viewModel.reviews.observe(viewLifecycleOwner) {
-            reviewsAdapter.submitList(it)
+            setupViewByDataResult(it)
+        }
+    }
+
+    private fun setupViewByDataResult(
+        result: DataResult<List<Review>>
+    ) {
+        when (result) {
+            is DataResult.Success -> {
+                reviewsAdapter.submitList(result.data)
+            }
+            is DataResult.Error -> {
+
+            }
+            is DataResult.Loading -> {
+
+            }
         }
     }
 

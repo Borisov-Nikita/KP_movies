@@ -15,6 +15,7 @@ import nik.borisov.kpmovies.databinding.FragmentMovieDetailBinding
 import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
 import nik.borisov.kpmovies.presentation.detail.adapters.TrailersAdapter
+import nik.borisov.kpmovies.utils.DataResult
 
 class MovieDetailFragment : Fragment() {
 
@@ -72,10 +73,26 @@ class MovieDetailFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.getMovie(getMovieId())
         viewModel.movie.observe(viewLifecycleOwner) {
-            setupView(it)
-            movie = it
-            trailersAdapter.submitList(it.trailers)
-            reviewsAdapter.submitList(it.reviews)
+            movie = it.data ?: throw NullPointerException("Data result is null")
+            setupViewByDataResult(it)
+        }
+    }
+
+    private fun setupViewByDataResult(
+        result: DataResult<Movie>
+    ) {
+        when (result) {
+            is DataResult.Success -> {
+                setupView(result.data  ?: throw NullPointerException("Data result is null"))
+                trailersAdapter.submitList(result.data.trailers)
+                reviewsAdapter.submitList(result.data.reviews)
+            }
+            is DataResult.Error -> {
+
+            }
+            is DataResult.Loading -> {
+
+            }
         }
     }
 
@@ -116,8 +133,6 @@ class MovieDetailFragment : Fragment() {
                 .add(R.id.movieDetailContainer, instance)
                 .addToBackStack(null)
                 .commit()
-
-
         }
     }
 

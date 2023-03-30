@@ -7,15 +7,15 @@ data class MoviePreviewDto(
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("type")
     val type: String,
     @SerializedName("year")
-    val year: Int,
+    val year: Int ?= null,
     @SerializedName("rating")
     val rating: RatingDto,
     @SerializedName("movieLength")
-    val movieLength: Int,
+    val movieLength: Int ?= null,
     @SerializedName("poster")
     val poster: PosterDto,
     @SerializedName("genres")

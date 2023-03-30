@@ -39,14 +39,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tv_series"
-            app:layout_constraintBottom_toTopOf="@+id/rvSerialsPreview"
+            app:layout_constraintBottom_toTopOf="@+id/rvTvSeriesPreview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvMoviesPreview" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSerialsPreview"
+            android:id="@+id/rvTvSeriesPreview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="200dp"
@@ -66,7 +66,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvSerialsPreview" />
+            app:layout_constraintTop_toBottomOf="@+id/rvTvSeriesPreview" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCartoonsPreview"

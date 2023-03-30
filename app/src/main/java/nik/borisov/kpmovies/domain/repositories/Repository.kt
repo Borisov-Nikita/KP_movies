@@ -4,12 +4,13 @@ import nik.borisov.kpmovies.data.MovieType
 import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.entities.Review
+import nik.borisov.kpmovies.utils.DataResult
 
 interface Repository {
 
-    suspend fun getMoviesPreview(type: MovieType, limit: Int): List<MoviePreview>
+    suspend fun getMoviesPreview(type: MovieType, limit: Int):DataResult<List<MoviePreview>>
 
-    suspend fun getMovie(movieId: Int): Movie
+    suspend fun getMovie(movieId: Int): DataResult<Movie>
 
-    suspend fun getReviews(movieId: Int, page: Int): List<Review>
+    suspend fun getReviews(movieId: Int, page: Int): DataResult<List<Review>>
 }

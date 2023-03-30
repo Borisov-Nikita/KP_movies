@@ -12,5 +12,5 @@ data class Movie(
     val genres: List<String>,
     val countries: List<String>,
     val trailers: List<Trailer>,
-    val reviews: List<Review>
+    val reviews: List<Review>?
 )

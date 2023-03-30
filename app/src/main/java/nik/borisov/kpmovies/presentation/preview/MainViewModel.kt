@@ -10,6 +10,7 @@ import nik.borisov.kpmovies.data.MovieType
 import nik.borisov.kpmovies.data.RepositoryImpl
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.usecases.GetMoviesPreviewUseCase
+import nik.borisov.kpmovies.utils.DataResult
 
 class MainViewModel(
     application: Application
@@ -19,24 +20,24 @@ class MainViewModel(
 
     private val getMoviesPreviewUseCase = GetMoviesPreviewUseCase(repository)
 
-    private val _movies = MutableLiveData<List<MoviePreview>>()
-    val movies: LiveData<List<MoviePreview>>
+    private val _movies = MutableLiveData<DataResult<List<MoviePreview>>>()
+    val movies: LiveData<DataResult<List<MoviePreview>>>
         get() = _movies
 
-    private val _tvSeries = MutableLiveData<List<MoviePreview>>()
-    val tvSeries: LiveData<List<MoviePreview>>
+    private val _tvSeries = MutableLiveData<DataResult<List<MoviePreview>>>()
+    val tvSeries: LiveData<DataResult<List<MoviePreview>>>
         get() = _tvSeries
 
-    private val _cartoons = MutableLiveData<List<MoviePreview>>()
-    val cartoons: LiveData<List<MoviePreview>>
+    private val _cartoons = MutableLiveData<DataResult<List<MoviePreview>>>()
+    val cartoons: LiveData<DataResult<List<MoviePreview>>>
         get() = _cartoons
 
-    private val _anime = MutableLiveData<List<MoviePreview>>()
-    val anime: LiveData<List<MoviePreview>>
+    private val _anime = MutableLiveData<DataResult<List<MoviePreview>>>()
+    val anime: LiveData<DataResult<List<MoviePreview>>>
         get() = _anime
 
-    private val _animatedSeries = MutableLiveData<List<MoviePreview>>()
-    val animatedSeries: LiveData<List<MoviePreview>>
+    private val _animatedSeries = MutableLiveData<DataResult<List<MoviePreview>>>()
+    val animatedSeries: LiveData<DataResult<List<MoviePreview>>>
         get() = _animatedSeries
 
     init {
@@ -49,17 +50,13 @@ class MainViewModel(
 
     fun getMoviesPreview(type: MovieType) {
         viewModelScope.launch {
-            when(type){
-                MovieType.TYPE_MOVIE ->
-                    _movies.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_TV_SERIES ->
-                    _tvSeries.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_CARTOON ->
-                    _cartoons.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_ANIME ->
-                    _anime.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_ANIMATED_SERIES ->
-                    _animatedSeries.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
+            val result = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
+            when (type) {
+                MovieType.TYPE_MOVIE -> _movies.value = result
+                MovieType.TYPE_TV_SERIES -> _tvSeries.value = result
+                MovieType.TYPE_CARTOON -> _cartoons.value = result
+                MovieType.TYPE_ANIME -> _anime.value = result
+                MovieType.TYPE_ANIMATED_SERIES -> _animatedSeries.value = result
             }
         }
     }

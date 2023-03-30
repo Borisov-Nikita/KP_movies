@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.data.MovieType
 import nik.borisov.kpmovies.databinding.ActivityCategoryPreviewBinding
+import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
 import nik.borisov.kpmovies.presentation.preview.adapters.CategoryPreviewAdapter
+import nik.borisov.kpmovies.utils.DataResult
 
 class CategoryPreviewActivity : AppCompatActivity() {
 
@@ -69,28 +71,45 @@ class CategoryPreviewActivity : AppCompatActivity() {
         when (movieType) {
             MovieType.TYPE_MOVIE -> {
                 viewModel.movies.observe(this) {
-                    adapter.submitList(it)
+                    setupViewByDataResult(it, adapter)
                 }
             }
             MovieType.TYPE_TV_SERIES -> {
                 viewModel.tvSeries.observe(this) {
-                    adapter.submitList(it)
+                    setupViewByDataResult(it, adapter)
                 }
             }
             MovieType.TYPE_CARTOON -> {
                 viewModel.cartoons.observe(this) {
-                    adapter.submitList(it)
+                    setupViewByDataResult(it, adapter)
                 }
             }
             MovieType.TYPE_ANIME -> {
                 viewModel.anime.observe(this) {
-                    adapter.submitList(it)
+                    setupViewByDataResult(it, adapter)
                 }
             }
             MovieType.TYPE_ANIMATED_SERIES -> {
                 viewModel.animatedSeries.observe(this) {
-                    adapter.submitList(it)
+                    setupViewByDataResult(it, adapter)
                 }
+            }
+        }
+    }
+
+    private fun setupViewByDataResult(
+        result: DataResult<List<MoviePreview>>,
+        adapter: CategoryPreviewAdapter
+    ) {
+        when (result) {
+            is DataResult.Success -> {
+                adapter.submitList(result.data)
+            }
+            is DataResult.Error -> {
+
+            }
+            is DataResult.Loading -> {
+
             }
         }
     }

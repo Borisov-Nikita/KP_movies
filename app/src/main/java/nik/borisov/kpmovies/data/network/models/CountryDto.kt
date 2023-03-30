@@ -1,8 +1,8 @@
-package nik.borisov.kpmovies.data.network.entities
+package nik.borisov.kpmovies.data.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class GenreDto(
+data class CountryDto(
 
     @SerializedName("name")
     val name: String

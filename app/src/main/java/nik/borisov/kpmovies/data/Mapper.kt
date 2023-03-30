@@ -1,6 +1,6 @@
 package nik.borisov.kpmovies.data
 
-import nik.borisov.kpmovies.data.network.entities.*
+import nik.borisov.kpmovies.data.network.models.*
 import nik.borisov.kpmovies.domain.ReviewType
 import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.domain.entities.MoviePreview
@@ -9,19 +9,19 @@ import nik.borisov.kpmovies.domain.entities.Trailer
 
 class Mapper {
 
-    fun mapMovieDtoToEntity(movieDto: MovieDto, reviewsResponse: ReviewsResponse): Movie {
+    fun mapMovieDtoToEntity(movieResponse: MovieResponse, reviewsResponse: ReviewsResponse): Movie {
         return Movie(
-            id = movieDto.id,
-            name = movieDto.name,
-            type = movieDto.type,
-            year = movieDto.year,
-            description = movieDto.description,
-            rating = movieDto.rating.kp,
-            movieLength = movieDto.movieLength,
-            poster = movieDto.poster.url,
-            genres = mapGenres(movieDto.genres),
-            countries = mapCountries(movieDto.countries),
-            trailers = mapTrailers(movieDto.trailersResponse),
+            id = movieResponse.id,
+            name = movieResponse.name,
+            type = movieResponse.type,
+            year = movieResponse.year,
+            description = movieResponse.description,
+            rating = movieResponse.rating.kp,
+            movieLength = movieResponse.movieLength,
+            poster = movieResponse.poster.url,
+            genres = mapGenres(movieResponse.genres),
+            countries = mapCountries(movieResponse.countries),
+            trailers = mapTrailers(movieResponse.trailersResponse),
             reviews = reviewsResponse.reviews.map { mapReviewDtoToEntity(it) }
         )
     }

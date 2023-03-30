@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation
+package nik.borisov.kpmovies.presentation.detail
 
 import android.content.Intent
 import android.net.Uri
@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.databinding.FragmentMovieDetailBinding
 import nik.borisov.kpmovies.domain.entities.Movie
-import nik.borisov.kpmovies.presentation.adapters.ReviewsAdapter
-import nik.borisov.kpmovies.presentation.adapters.TrailersAdapter
+import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
+import nik.borisov.kpmovies.presentation.detail.adapters.TrailersAdapter
 
 class MovieDetailFragment : Fragment() {
 

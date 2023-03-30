@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation.adapters
+package nik.borisov.kpmovies.presentation.preview.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import nik.borisov.kpmovies.databinding.MoviePreviewItemBinding
 import nik.borisov.kpmovies.domain.entities.MoviePreview
+import nik.borisov.kpmovies.presentation.adapters.setupRating
 
 class MoviesPreviewAdapter :
     ListAdapter<MoviePreview, MoviePreviewViewHolder>(MoviesPreviewDiffCallback()) {

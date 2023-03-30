@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation
+package nik.borisov.kpmovies.presentation.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.databinding.FragmentReviewListBinding
-import nik.borisov.kpmovies.presentation.adapters.ReviewsAdapter
+import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
 
 class ReviewListFragment : Fragment() {
 

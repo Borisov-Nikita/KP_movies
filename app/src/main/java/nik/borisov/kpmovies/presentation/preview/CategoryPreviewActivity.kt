@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation
+package nik.borisov.kpmovies.presentation.preview
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.data.MovieType
 import nik.borisov.kpmovies.databinding.ActivityCategoryPreviewBinding
-import nik.borisov.kpmovies.presentation.adapters.CategoryPreviewAdapter
+import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
+import nik.borisov.kpmovies.presentation.preview.adapters.CategoryPreviewAdapter
 
 class CategoryPreviewActivity : AppCompatActivity() {
 

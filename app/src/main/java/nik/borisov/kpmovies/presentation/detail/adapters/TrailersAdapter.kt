@@ -19,8 +19,9 @@ class TrailersAdapter : ListAdapter<Trailer, TrailersViewHolder>(TrailersDiffCal
         return TrailersViewHolder(binding)
     }
 
+
     override fun onBindViewHolder(holder: TrailersViewHolder, position: Int) {
-        val trailer = currentList[position]
+        val trailer = getItem(position)
         holder.binding.tvTrailerName.text = trailer.name
         holder.binding.ivPlayTrailer.setOnClickListener {
             onTrailerClickListener?.invoke(trailer.url)

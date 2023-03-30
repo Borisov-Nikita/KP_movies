@@ -49,17 +49,18 @@ class MainViewModel(
 
     fun getMoviesPreview(type: MovieType) {
         viewModelScope.launch {
+            val result = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
+            result.map {
+                //To custom model for adapter
+                //prepare data to show
+            }
+
             when(type){
-                MovieType.TYPE_MOVIE ->
-                    _movies.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_TV_SERIES ->
-                    _tvSeries.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_CARTOON ->
-                    _cartoons.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_ANIME ->
-                    _anime.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
-                MovieType.TYPE_ANIMATED_SERIES ->
-                    _animatedSeries.value = getMoviesPreviewUseCase.getMoviesPreview(type, DOWNLOAD_LIMIT)
+                MovieType.TYPE_MOVIE -> _movies.value = result
+                MovieType.TYPE_TV_SERIES -> _tvSeries.value = result
+                MovieType.TYPE_CARTOON -> _cartoons.value = result
+                MovieType.TYPE_ANIME -> _anime.value = result
+                MovieType.TYPE_ANIMATED_SERIES -> _animatedSeries.value = result
             }
         }
     }

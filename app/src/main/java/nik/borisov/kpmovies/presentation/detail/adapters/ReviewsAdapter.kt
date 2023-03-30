@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import nik.borisov.kpmovies.databinding.ReviewItemBinding
 import nik.borisov.kpmovies.domain.entities.Review
-import nik.borisov.kpmovies.presentation.adapters.setupReviewDate
-import nik.borisov.kpmovies.presentation.adapters.setupReviewType
+import nik.borisov.kpmovies.presentation.setupReviewDate
+import nik.borisov.kpmovies.presentation.setupReviewType
 
 class ReviewsAdapter : ListAdapter<Review, ReviewsViewHolder>(ReviewsDiffCallback()) {
 

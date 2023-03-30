@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import nik.borisov.kpmovies.data.MovieType
 import nik.borisov.kpmovies.databinding.ActivityMainBinding
 import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
@@ -35,80 +36,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val moviesRecyclerView = binding.rvMoviesPreview
-        moviesRecyclerView.adapter = adapterMovies
-        moviesRecyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        adapterMovies.onReachEndListener = {
-            viewModel.getMoviesPreview(MovieType.TYPE_MOVIE)
-        }
-        adapterMovies.onMoviePreviewClickListener = {
-            val intent = MovieDetailActivity.newIntent(this, it)
-            startActivity(intent)
-        }
+        binding.rvMoviesPreview.setupRecyclerByType(MovieType.TYPE_MOVIE, adapterMovies)
+        binding.rvSerialsPreview.setupRecyclerByType(MovieType.TYPE_TV_SERIES, adapterTvSeries)
+        binding.rvCartoonsPreview.setupRecyclerByType(MovieType.TYPE_CARTOON, adapterCartoons)
+        binding.rvAnimePreview.setupRecyclerByType(MovieType.TYPE_ANIME, adapterAnime)
+        binding.rvAnimatedSeriesPreview.setupRecyclerByType(MovieType.TYPE_ANIMATED_SERIES, adapterAnimatedSeries)
+    }
 
-        val tvSeriesRecyclerView = binding.rvSerialsPreview
-        tvSeriesRecyclerView.adapter = adapterTvSeries
-        tvSeriesRecyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        adapterTvSeries.onReachEndListener = {
-            viewModel.getMoviesPreview(MovieType.TYPE_TV_SERIES)
-        }
-        adapterTvSeries.onMoviePreviewClickListener = {
-            val intent = MovieDetailActivity.newIntent(this, it)
-            startActivity(intent)
-        }
+    private fun createLinearLayout() = LinearLayoutManager(
+        this,
+        LinearLayoutManager.HORIZONTAL,
+        false
+    )
 
-        val cartoonsRecyclerView = binding.rvCartoonsPreview
-        cartoonsRecyclerView.adapter = adapterCartoons
-        cartoonsRecyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        adapterCartoons.onReachEndListener = {
-            viewModel.getMoviesPreview(MovieType.TYPE_CARTOON)
-        }
-        adapterCartoons.onMoviePreviewClickListener = {
-            val intent = MovieDetailActivity.newIntent(this, it)
-            startActivity(intent)
-        }
+    private fun RecyclerView.setupRecyclerByType(type: MovieType, adapter: MoviesPreviewAdapter) {
+        this.layoutManager = createLinearLayout()
+        this.adapter = adapter
+        adapter.onMoviePreviewClickListener = onClickPreview()
+        adapter.onReachEndListener = { viewModel.getMoviesPreview(type) }
+    }
 
-        val animeRecyclerView = binding.rvAnimePreview
-        animeRecyclerView.adapter = adapterAnime
-        animeRecyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        adapterAnime.onReachEndListener = {
-            viewModel.getMoviesPreview(MovieType.TYPE_ANIME)
-        }
-        adapterAnime.onMoviePreviewClickListener = {
-            val intent = MovieDetailActivity.newIntent(this, it)
-            startActivity(intent)
-        }
-
-        val animatedSeriesRecyclerView = binding.rvAnimatedSeriesPreview
-        animatedSeriesRecyclerView.adapter = adapterAnimatedSeries
-        animatedSeriesRecyclerView.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false
-        )
-        adapterAnimatedSeries.onReachEndListener = {
-            viewModel.getMoviesPreview(MovieType.TYPE_ANIMATED_SERIES)
-        }
-        adapterAnimatedSeries.onMoviePreviewClickListener = {
-            val intent = MovieDetailActivity.newIntent(this, it)
-            startActivity(intent)
-        }
+    private fun onClickPreview(): (Int) -> Unit = {
+        val intent = MovieDetailActivity.newIntent(this, it)
+        startActivity(intent)
     }
 
     private fun observeViewModel() {

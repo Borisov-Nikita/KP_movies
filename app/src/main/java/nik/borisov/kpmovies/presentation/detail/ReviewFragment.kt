@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import nik.borisov.kpmovies.databinding.FragmentReviewBinding
 import nik.borisov.kpmovies.domain.entities.Review
-import nik.borisov.kpmovies.presentation.adapters.setupReviewDate
-import nik.borisov.kpmovies.presentation.adapters.setupReviewType
+import nik.borisov.kpmovies.presentation.setupReviewDate
+import nik.borisov.kpmovies.presentation.setupReviewType
 
 class ReviewFragment : Fragment() {
 
@@ -68,6 +68,7 @@ class ReviewFragment : Fragment() {
         private const val ARG_REVIEW = "review"
 
         fun newInstance(review: Review) = ReviewFragment().apply {
+            //TODO use capacity or use extension bundleOf(...)
             arguments = Bundle().apply {
                 putSerializable(ARG_REVIEW, review)
             }

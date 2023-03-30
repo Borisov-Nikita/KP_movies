@@ -24,6 +24,7 @@ class ReviewListViewModel : ViewModel() {
 
     private var page = 1
 
+    //TODO replace jetpack paging 3 library
     fun getReviews(movieId: Int) {
         viewModelScope.launch {
             reviewList.addAll(getReviewsUseCase.getReviews(movieId, page++))

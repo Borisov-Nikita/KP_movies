@@ -1,4 +1,4 @@
-package nik.borisov.kpmovies.presentation.adapters
+package nik.borisov.kpmovies.presentation
 
 import android.widget.ImageView
 import android.widget.TextView

@@ -103,6 +103,7 @@ class ReviewListFragment : Fragment() {
         binding.tvMovieName.text = moveName
     }
 
+    //TODO check available transaction. use tag
     private fun setupClickListener() {
         reviewsAdapter.onReviewClickListener = {
             val instance = ReviewFragment.newInstance(it)

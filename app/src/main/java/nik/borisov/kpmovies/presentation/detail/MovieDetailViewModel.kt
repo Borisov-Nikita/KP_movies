@@ -22,6 +22,7 @@ class MovieDetailViewModel(
     val movie: LiveData<Movie>
         get() = _movie
 
+    //TODO catch exception
     fun getMovie(movieId: Int) {
         viewModelScope.launch {
             _movie.value = getMovieUseCase.getMovie(movieId)

@@ -105,22 +105,28 @@ class MovieDetailFragment : Fragment() {
         }
         reviewsAdapter.onReviewClickListener = {
             val instance = ReviewFragment.newInstance(it)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.movieDetailContainer, instance)
-                .addToBackStack(null)
-                .commit()
+            showFragment(instance, REVIEW_KEY)
         }
         binding.tvReviewTitle.setOnClickListener {
             val instance = ReviewListFragment.newInstance(movie.name, movie.id)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.movieDetailContainer, instance)
-                .addToBackStack(null)
-                .commit()
-
-
+            showFragment(instance, REVIEW_KEY)
         }
     }
 
+
+    private fun showFragment(fragment: Fragment, tag: String = REVIEW_KEY) {
+        val currentInstance = activity?.supportFragmentManager?.findFragmentByTag(tag)
+
+        if (currentInstance == null) {
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.add(R.id.movieDetailContainer, fragment, tag)
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+    }
+
+    //TODO need use kt arguments
     private fun getMovieId(): Int {
         return requireArguments().getInt(ARG_MOVIE_ID)
     }
@@ -129,6 +135,7 @@ class MovieDetailFragment : Fragment() {
 
         private const val MIN_IN_HOUR = 60
         private const val ARG_MOVIE_ID = "movie_id"
+        private const val REVIEW_KEY = "review_key"
 
         fun newInstance(movieId: Int) = MovieDetailFragment().apply {
             arguments = Bundle().apply {

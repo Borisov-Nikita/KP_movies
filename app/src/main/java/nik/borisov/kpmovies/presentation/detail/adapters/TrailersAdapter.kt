@@ -22,7 +22,7 @@ class TrailersAdapter : ListAdapter<Trailer, TrailersViewHolder>(TrailersDiffCal
     override fun onBindViewHolder(holder: TrailersViewHolder, position: Int) {
         val trailer = currentList[position]
         holder.binding.tvTrailerName.text = trailer.name
-        holder.binding.ivPlayTrailer.setOnClickListener {
+        holder.binding.cvTrailer.setOnClickListener {
             onTrailerClickListener?.invoke(trailer.url)
         }
     }

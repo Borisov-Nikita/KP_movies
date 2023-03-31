@@ -1,13 +1,10 @@
-package nik.borisov.kpmovies.presentation.adapters
+package nik.borisov.kpmovies.presentation
 
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.domain.ReviewType
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 fun setupRating(textView: TextView, rating: Double) {
     val backgroundId = if (rating >= 7) {
@@ -38,12 +35,4 @@ fun setupReviewType(imageView: ImageView, type: ReviewType) {
     }
     val background = ContextCompat.getDrawable(imageView.context, backgroundId)
     imageView.background = background
-}
-
-fun setupReviewDate(textView: TextView, date: String) {
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-    val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
-    val input = inputFormat.parse(date)
-    val output = outputFormat.format(input)
-    textView.text = output
 }

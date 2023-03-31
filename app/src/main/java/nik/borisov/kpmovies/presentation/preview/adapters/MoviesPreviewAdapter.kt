@@ -6,24 +6,24 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import nik.borisov.kpmovies.databinding.MoviePreviewItemBinding
 import nik.borisov.kpmovies.domain.entities.MoviePreview
-import nik.borisov.kpmovies.presentation.adapters.setupRating
+import nik.borisov.kpmovies.presentation.setupRating
 
 class MoviesPreviewAdapter :
-    ListAdapter<MoviePreview, MoviePreviewViewHolder>(MoviesPreviewDiffCallback()) {
+    ListAdapter<MoviePreview, MoviesPreviewViewHolder>(MoviesPreviewDiffCallback()) {
 
     var onReachEndListener: (() -> Unit)? = null
     var onMoviePreviewClickListener: ((Int) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviePreviewViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesPreviewViewHolder {
         val binding = MoviePreviewItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MoviePreviewViewHolder(binding)
+        return MoviesPreviewViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: MoviePreviewViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MoviesPreviewViewHolder, position: Int) {
         val moviePreview = currentList[position]
         val poster = moviePreview.poster
         Glide.with(holder.itemView)

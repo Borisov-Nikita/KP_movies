@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import nik.borisov.kpmovies.databinding.ReviewItemBinding
 import nik.borisov.kpmovies.domain.entities.Review
-import nik.borisov.kpmovies.presentation.adapters.setupReviewDate
-import nik.borisov.kpmovies.presentation.adapters.setupReviewType
+import nik.borisov.kpmovies.presentation.setupReviewType
 
 class ReviewsAdapter : ListAdapter<Review, ReviewsViewHolder>(ReviewsDiffCallback()) {
 
@@ -26,13 +25,9 @@ class ReviewsAdapter : ListAdapter<Review, ReviewsViewHolder>(ReviewsDiffCallbac
         val review = currentList[position]
         with(holder.binding) {
             setupReviewType(ivType, review.type)
-            setupReviewDate(tvDate, review.date)
+            tvDate.text = review.date
             tvAuthor.text = review.author
-            tvReview.text = if (review.title != "") {
-                "%s\n\n%s".format(review.title, review.review)
-            } else {
-                "%s".format(review.review)
-            }
+            tvReview.text = review.review
             cvReviewItem.setOnClickListener {
                 onReviewClickListener?.invoke(review)
             }

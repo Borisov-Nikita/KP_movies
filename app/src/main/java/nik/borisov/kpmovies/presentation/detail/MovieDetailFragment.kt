@@ -83,7 +83,7 @@ class MovieDetailFragment : Fragment() {
     ) {
         when (result) {
             is DataResult.Success -> {
-                setupView(result.data  ?: throw NullPointerException("Data result is null"))
+                setupView(result.data ?: throw NullPointerException("Data result is null"))
                 trailersAdapter.submitList(result.data.trailers)
                 reviewsAdapter.submitList(result.data.reviews)
             }
@@ -122,20 +122,25 @@ class MovieDetailFragment : Fragment() {
         }
         reviewsAdapter.onReviewClickListener = {
             val instance = ReviewFragment.newInstance(it)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.movieDetailContainer, instance)
-                .addToBackStack(null)
-                .commit()
+            showFragment(instance, REVIEW_TAG)
         }
         binding.tvReviewTitle.setOnClickListener {
             val instance = ReviewListFragment.newInstance(movie.name, movie.id)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.movieDetailContainer, instance)
-                .addToBackStack(null)
-                .commit()
+            showFragment(instance, REVIEW_LIST_TAG)
         }
     }
 
+    private fun showFragment(instance: Fragment, tag: String) {
+        val currentInstance = activity?.supportFragmentManager?.findFragmentByTag(tag)
+        if (currentInstance == null) {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.movieDetailContainer, instance, tag)
+                ?.addToBackStack(null)
+                ?.commit()
+        }
+    }
+
+    //TODO need use kt arguments
     private fun getMovieId(): Int {
         return requireArguments().getInt(ARG_MOVIE_ID)
     }
@@ -144,6 +149,8 @@ class MovieDetailFragment : Fragment() {
 
         private const val MIN_IN_HOUR = 60
         private const val ARG_MOVIE_ID = "movie_id"
+        private const val REVIEW_TAG = "review_fragment"
+        private const val REVIEW_LIST_TAG = "review_list_fragment"
 
         fun newInstance(movieId: Int) = MovieDetailFragment().apply {
             arguments = Bundle().apply {

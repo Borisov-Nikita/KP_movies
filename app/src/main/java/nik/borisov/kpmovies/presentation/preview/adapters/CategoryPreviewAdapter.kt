@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import nik.borisov.kpmovies.databinding.MovieCategoryPreviewItemBinding
 import nik.borisov.kpmovies.domain.entities.MoviePreview
-import nik.borisov.kpmovies.presentation.adapters.setupRating
+import nik.borisov.kpmovies.presentation.setupRating
 
 class CategoryPreviewAdapter :
     ListAdapter<MoviePreview, CategoryPreviewViewHolder>(MoviesPreviewDiffCallback()) {

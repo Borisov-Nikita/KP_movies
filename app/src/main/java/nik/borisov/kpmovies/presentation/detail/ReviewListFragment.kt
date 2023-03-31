@@ -121,13 +121,17 @@ class ReviewListFragment : Fragment() {
         binding.tvMovieName.text = moveName
     }
 
+
     private fun setupClickListener() {
         reviewsAdapter.onReviewClickListener = {
             val instance = ReviewFragment.newInstance(it)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.movieDetailContainer, instance)
-                .addToBackStack(null)
-                .commit()
+            val currentInstance = activity?.supportFragmentManager?.findFragmentByTag(REVIEW_TAG)
+            if (currentInstance == null) {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.add(R.id.movieDetailContainer, instance, REVIEW_TAG)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
         }
     }
 
@@ -135,9 +139,9 @@ class ReviewListFragment : Fragment() {
 
         private const val UNDEFINED_NAME = ""
         private const val UNDEFINED_ID = -1
-
         private const val ARG_MOVIE_ID = "movie_id"
         private const val ARG_MOVIE_NAME = "movie_name"
+        private const val REVIEW_TAG = "review_fragment"
 
         fun newInstance(movieName: String, movieId: Int) = ReviewListFragment().apply {
             arguments = Bundle().apply {

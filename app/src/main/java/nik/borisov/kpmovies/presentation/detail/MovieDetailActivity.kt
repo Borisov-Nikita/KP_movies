@@ -21,7 +21,9 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        launchFragment()
+        if (savedInstanceState == null) {
+            launchFragment()
+        }
     }
 
     private fun parseIntent(): Int {

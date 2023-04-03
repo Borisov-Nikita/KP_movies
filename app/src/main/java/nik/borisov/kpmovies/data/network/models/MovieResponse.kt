@@ -1,6 +1,7 @@
 package nik.borisov.kpmovies.data.network.models
 
 import com.google.gson.annotations.SerializedName
+import nik.borisov.kpmovies.domain.MovieType
 
 data class MovieResponse(
 
@@ -9,7 +10,7 @@ data class MovieResponse(
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("type")
-    val type: String,
+    val type: MovieType,
     @SerializedName("year")
     val year: Int? = null,
     @SerializedName("description")

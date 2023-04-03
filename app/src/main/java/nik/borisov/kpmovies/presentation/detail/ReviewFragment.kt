@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import nik.borisov.kpmovies.databinding.FragmentReviewBinding
 import nik.borisov.kpmovies.domain.entities.Review
-import nik.borisov.kpmovies.presentation.adapters.setupReviewDate
-import nik.borisov.kpmovies.presentation.adapters.setupReviewType
+import nik.borisov.kpmovies.presentation.setupReviewType
 
 class ReviewFragment : Fragment() {
 
@@ -35,13 +35,9 @@ class ReviewFragment : Fragment() {
         val review = parseArgs()
         with(binding) {
             setupReviewType(ivType, review.type)
-            setupReviewDate(tvDate, review.date)
+            tvDate.text = review.date
             tvAuthor.text = review.author
-            tvReview.text = if (review.title != "") {
-                "%s\n\n%s".format(review.title, review.review)
-            } else {
-                "%s".format(review.review)
-            }
+            tvReview.text = review.review
         }
     }
 
@@ -68,9 +64,9 @@ class ReviewFragment : Fragment() {
         private const val ARG_REVIEW = "review"
 
         fun newInstance(review: Review) = ReviewFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(ARG_REVIEW, review)
-            }
+            arguments = bundleOf(
+                ARG_REVIEW to review
+            )
         }
     }
 }

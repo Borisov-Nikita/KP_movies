@@ -1,6 +1,15 @@
 package nik.borisov.kpmovies.data
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import nik.borisov.kpmovies.data.network.ApiFactory
+import nik.borisov.kpmovies.data.network.pagingsources.MoviePreviewPagingSource
+import nik.borisov.kpmovies.data.network.pagingsources.ReviewPagingSource
+import nik.borisov.kpmovies.domain.MovieType
 import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.entities.Review
@@ -12,29 +21,19 @@ class RepositoryImpl : Repository, NetworkResponse() {
 
     private val apiService = ApiFactory.apiService
     private val mapper = Mapper()
-    private val moviePreviewCache = MoviesPreviewCache
 
-    override suspend fun getMoviesPreview(
-        type: MovieType,
-        limit: Int
-    ): DataResult<List<MoviePreview>> {
-        val moviePreviewList = mutableListOf<MoviePreview>()
-        if (moviePreviewCache.cache.containsKey(type)) {
-            val currentList = moviePreviewCache.cache[type]
-            moviePreviewList.addAll(currentList ?: throw RuntimeException())
-        }
-        val page = (moviePreviewList.size / limit) + 1
-        val networkResponse = safeNetworkCall {
-            apiService.loadMoviesPreview(page, limit, type.type)
-        }
-        return if (networkResponse is DataResult.Success) {
-            moviePreviewList.addAll(networkResponse.data?.movies?.map {
-                mapper.mapMoviePreviewDtoToEntity(it)
-            } ?: emptyList())
-            moviePreviewCache.cache[type] = moviePreviewList
-            DataResult.Success(data = moviePreviewList.toList())
-        } else {
-            DataResult.Error(message = networkResponse.message)
+    override fun getMoviesPreview(type: MovieType, limit: Int): Flow<PagingData<MoviePreview>> {
+        return Pager(
+            config = PagingConfig(pageSize = limit),
+            pagingSourceFactory = {
+                MoviePreviewPagingSource(
+                    apiService = apiService,
+                    movieType = type.type,
+                    limit = limit
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { mapper.mapMoviePreviewDtoToEntity(it) }
         }
     }
 
@@ -57,16 +56,22 @@ class RepositoryImpl : Repository, NetworkResponse() {
         }
     }
 
-    override suspend fun getReviews(movieId: Int, page: Int): DataResult<List<Review>> {
-        val networkResponse = safeNetworkCall {
-            apiService.loadReviews(movieId, page)
+    override fun getReviews(movieId: Int): Flow<PagingData<Review>> {
+        return Pager(
+            config = PagingConfig(pageSize = DOWNLOAD_PAGE_LIMIT),
+            pagingSourceFactory = {
+                ReviewPagingSource(
+                    apiService = apiService,
+                    movieId = movieId
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { mapper.mapReviewDtoToEntity(it) }
         }
-        return if (networkResponse is DataResult.Success && networkResponse.data != null) {
-            DataResult.Success(networkResponse.data.reviews.map {
-                mapper.mapReviewDtoToEntity(it)
-            })
-        } else {
-            DataResult.Error(message = networkResponse.message)
-        }
+    }
+
+    companion object {
+
+        private const val DOWNLOAD_PAGE_LIMIT = 10
     }
 }

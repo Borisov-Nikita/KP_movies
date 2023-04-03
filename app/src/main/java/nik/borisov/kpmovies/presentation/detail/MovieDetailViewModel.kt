@@ -1,7 +1,6 @@
 package nik.borisov.kpmovies.presentation.detail
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,7 +28,6 @@ class MovieDetailViewModel(
             val result = getMovieUseCase.getMovie(movieId)
             if (result.data != null) {
                 _movie.value = result
-                Log.d("Test", result.data.toString())
             }
         }
     }

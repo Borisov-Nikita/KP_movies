@@ -7,14 +7,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import nik.borisov.kpmovies.R
-import nik.borisov.kpmovies.data.MovieType
+import nik.borisov.kpmovies.domain.MovieType
 import nik.borisov.kpmovies.databinding.ActivityCategoryPreviewBinding
-import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
 import nik.borisov.kpmovies.presentation.preview.adapters.CategoryPreviewAdapter
-import nik.borisov.kpmovies.utils.DataResult
 
 class CategoryPreviewActivity : AppCompatActivity() {
 
@@ -36,7 +37,7 @@ class CategoryPreviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupRecyclerView()
-        observeViewModel()
+        collectMoviesPreview()
         setupView()
         setupClickListeners()
     }
@@ -58,58 +59,37 @@ class CategoryPreviewActivity : AppCompatActivity() {
         val categoryPreviewRecyclerView = binding.rvCategoryPreview
         categoryPreviewRecyclerView.adapter = adapter
         categoryPreviewRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter.onReachEndListener = {
-            viewModel.getMoviesPreview(movieType)
-        }
         adapter.onMoviePreviewClickListener = {
             val intent = MovieDetailActivity.newIntent(this, it)
             startActivity(intent)
         }
     }
 
-    private fun observeViewModel() {
+    private fun collectMoviesPreview() {
         when (movieType) {
             MovieType.TYPE_MOVIE -> {
-                viewModel.movies.observe(this) {
-                    setupViewByDataResult(it, adapter)
-                }
+                collectMoviesPreviewByType(MovieType.TYPE_MOVIE)
             }
             MovieType.TYPE_TV_SERIES -> {
-                viewModel.tvSeries.observe(this) {
-                    setupViewByDataResult(it, adapter)
-                }
+                collectMoviesPreviewByType(MovieType.TYPE_TV_SERIES)
             }
             MovieType.TYPE_CARTOON -> {
-                viewModel.cartoons.observe(this) {
-                    setupViewByDataResult(it, adapter)
-                }
+                collectMoviesPreviewByType(MovieType.TYPE_CARTOON)
             }
             MovieType.TYPE_ANIME -> {
-                viewModel.anime.observe(this) {
-                    setupViewByDataResult(it, adapter)
-                }
+                collectMoviesPreviewByType(MovieType.TYPE_ANIME)
             }
             MovieType.TYPE_ANIMATED_SERIES -> {
-                viewModel.animatedSeries.observe(this) {
-                    setupViewByDataResult(it, adapter)
-                }
+                collectMoviesPreviewByType(MovieType.TYPE_ANIMATED_SERIES)
             }
+            MovieType.TYPE_UNDEFINED -> {}
         }
     }
 
-    private fun setupViewByDataResult(
-        result: DataResult<List<MoviePreview>>,
-        adapter: CategoryPreviewAdapter
-    ) {
-        when (result) {
-            is DataResult.Success -> {
-                adapter.submitList(result.data)
-            }
-            is DataResult.Error -> {
-
-            }
-            is DataResult.Loading -> {
-
+    private fun collectMoviesPreviewByType(type: MovieType) {
+        lifecycleScope.launch {
+            viewModel.getMoviesPreview(type).collectLatest {
+                adapter.submitData(it)
             }
         }
     }
@@ -121,6 +101,7 @@ class CategoryPreviewActivity : AppCompatActivity() {
             MovieType.TYPE_CARTOON -> getString(R.string.cartoons)
             MovieType.TYPE_ANIME -> getString(R.string.anime)
             MovieType.TYPE_ANIMATED_SERIES -> getString(R.string.animated_series)
+            MovieType.TYPE_UNDEFINED -> ""
         }
     }
 

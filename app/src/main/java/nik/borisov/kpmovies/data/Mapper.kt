@@ -6,10 +6,15 @@ import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.domain.entities.Trailer
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Mapper {
 
-    fun mapMovieDtoToEntity(movieResponse: MovieResponse, reviewsResponse: ReviewsResponse?): Movie {
+    fun mapMovieDtoToEntity(
+        movieResponse: MovieResponse,
+        reviewsResponse: ReviewsResponse?
+    ): Movie {
         return Movie(
             id = movieResponse.id,
             name = movieResponse.name ?: UNDEFINED_STRING_FIELD,
@@ -44,10 +49,9 @@ class Mapper {
         return Review(
             id = reviewDto.id,
             movieId = reviewDto.movieId,
-            title = reviewDto.title ?: UNDEFINED_STRING_FIELD,
-            type = mapReviewType(reviewDto.type),
-            review = reviewDto.review,
-            date = reviewDto.date,
+            type = reviewDto.type ?: ReviewType.TYPE_UNDEFINED,
+            review = mapReviewText(reviewDto.title, reviewDto.review),
+            date = mapReviewDate(reviewDto.date),
             author = reviewDto.author
         )
     }
@@ -71,17 +75,18 @@ class Mapper {
         }
     }
 
-    private fun mapReviewType(type: String): ReviewType {
-        return when (type) {
-            "Позитивный" -> {
-                ReviewType.TYPE_POSITIVE
-            }
-            "Негативный" -> {
-                ReviewType.TYPE_NEGATIVE
-            }
-            else -> {
-                ReviewType.TYPE_NEUTRAL
-            }
+    private fun mapReviewDate(date: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+        val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+        val input = inputFormat.parse(date)
+        return outputFormat.format(input)
+    }
+
+    private fun mapReviewText(title: String?, review: String): String {
+        return if (title != null) {
+            "%s\n\n%s".format(title, review)
+        } else {
+            "%s".format(review)
         }
     }
 

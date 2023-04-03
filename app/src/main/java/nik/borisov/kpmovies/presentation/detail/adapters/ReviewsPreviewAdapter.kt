@@ -2,12 +2,12 @@ package nik.borisov.kpmovies.presentation.detail.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.ListAdapter
 import nik.borisov.kpmovies.databinding.ReviewItemBinding
 import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.presentation.setupReviewType
 
-class ReviewsAdapter : PagingDataAdapter<Review, ReviewsViewHolder>(ReviewsDiffCallback()) {
+class ReviewsPreviewAdapter : ListAdapter<Review, ReviewsViewHolder>(ReviewsDiffCallback()) {
 
     var onReviewClickListener: ((Review) -> Unit)? = null
 
@@ -22,15 +22,13 @@ class ReviewsAdapter : PagingDataAdapter<Review, ReviewsViewHolder>(ReviewsDiffC
 
     override fun onBindViewHolder(holder: ReviewsViewHolder, position: Int) {
         val review = getItem(position)
-        if (review != null) {
-            with(holder.binding) {
-                setupReviewType(ivType, review.type)
-                tvDate.text = review.date
-                tvAuthor.text = review.author
-                tvReview.text = review.review
-                cvReviewItem.setOnClickListener {
-                    onReviewClickListener?.invoke(review)
-                }
+        with(holder.binding) {
+            setupReviewType(ivType, review.type)
+            tvDate.text = review.date
+            tvAuthor.text = review.author
+            tvReview.text = review.review
+            cvReviewItem.setOnClickListener {
+                onReviewClickListener?.invoke(review)
             }
         }
     }

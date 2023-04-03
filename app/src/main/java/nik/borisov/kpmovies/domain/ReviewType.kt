@@ -4,5 +4,6 @@ enum class ReviewType {
 
     TYPE_POSITIVE,
     TYPE_NEGATIVE,
-    TYPE_NEUTRAL
+    TYPE_NEUTRAL,
+    TYPE_UNDEFINED
 }

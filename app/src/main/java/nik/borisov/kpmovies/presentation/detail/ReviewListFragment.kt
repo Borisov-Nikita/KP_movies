@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.databinding.FragmentReviewListBinding
-import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
-import nik.borisov.kpmovies.utils.DataResult
 
 class ReviewListFragment : Fragment() {
 
@@ -49,7 +51,7 @@ class ReviewListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeViewModel()
+        collectReviews()
         setupView()
         setupClickListener()
     }
@@ -89,30 +91,12 @@ class ReviewListFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
-        reviewsAdapter.onReachEndListener = {
-            viewModel.getReviews(movieId)
-        }
     }
 
-    private fun observeViewModel() {
-        viewModel.getReviews(movieId)
-        viewModel.reviews.observe(viewLifecycleOwner) {
-            setupViewByDataResult(it)
-        }
-    }
-
-    private fun setupViewByDataResult(
-        result: DataResult<List<Review>>
-    ) {
-        when (result) {
-            is DataResult.Success -> {
-                reviewsAdapter.submitList(result.data)
-            }
-            is DataResult.Error -> {
-
-            }
-            is DataResult.Loading -> {
-
+    private fun collectReviews() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getReviews(movieId).collectLatest {
+                reviewsAdapter.submitData(it)
             }
         }
     }
@@ -124,10 +108,13 @@ class ReviewListFragment : Fragment() {
     private fun setupClickListener() {
         reviewsAdapter.onReviewClickListener = {
             val instance = ReviewFragment.newInstance(it)
-            requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.movieDetailContainer, instance)
-                .addToBackStack(null)
-                .commit()
+            val currentInstance = activity?.supportFragmentManager?.findFragmentByTag(REVIEW_TAG)
+            if (currentInstance == null) {
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.add(R.id.movieDetailContainer, instance, REVIEW_TAG)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
         }
     }
 
@@ -135,15 +122,15 @@ class ReviewListFragment : Fragment() {
 
         private const val UNDEFINED_NAME = ""
         private const val UNDEFINED_ID = -1
-
         private const val ARG_MOVIE_ID = "movie_id"
         private const val ARG_MOVIE_NAME = "movie_name"
+        private const val REVIEW_TAG = "review_fragment"
 
         fun newInstance(movieName: String, movieId: Int) = ReviewListFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_MOVIE_NAME, movieName)
-                putInt(ARG_MOVIE_ID, movieId)
-            }
+            arguments = bundleOf(
+                ARG_MOVIE_NAME to movieName,
+                ARG_MOVIE_ID to movieId
+            )
         }
     }
 }

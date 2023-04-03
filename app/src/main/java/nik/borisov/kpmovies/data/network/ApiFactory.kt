@@ -1,5 +1,10 @@
 package nik.borisov.kpmovies.data.network
 
+import com.google.gson.GsonBuilder
+import nik.borisov.kpmovies.domain.MovieType
+import nik.borisov.kpmovies.data.network.jsondeserializers.MovieTypeDeserializer
+import nik.borisov.kpmovies.data.network.jsondeserializers.ReviewTypeDeserializer
+import nik.borisov.kpmovies.domain.ReviewType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,20 +14,27 @@ object ApiFactory {
 
     private const val BASE_URL = "https://api.kinopoisk.dev/"
 
-    private val httpLoggingInterceptor =
-        HttpLoggingInterceptor().apply {
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create(createGson()))
+        .client(createOkHttpClient())
+        .build()
+
+    private fun createHttpLoggingInterceptor() = HttpLoggingInterceptor()
+        .apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
-    private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(httpLoggingInterceptor)
+    private fun createOkHttpClient() = OkHttpClient.Builder()
+        .addInterceptor(createHttpLoggingInterceptor())
         .build()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
-        .build()
+    private fun createGson() = GsonBuilder()
+        .registerTypeAdapter(ReviewType::class.java, ReviewTypeDeserializer())
+        .registerTypeAdapter(MovieType::class.java, MovieTypeDeserializer())
+        .serializeNulls()
+        .create()
+
 
     val apiService = retrofit.create(ApiService::class.java)
 }

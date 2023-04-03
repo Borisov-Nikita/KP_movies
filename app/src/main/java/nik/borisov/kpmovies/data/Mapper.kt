@@ -49,7 +49,7 @@ class Mapper {
         return Review(
             id = reviewDto.id,
             movieId = reviewDto.movieId,
-            type = mapReviewType(reviewDto.type),
+            type = reviewDto.type ?: ReviewType.TYPE_UNDEFINED,
             review = mapReviewText(reviewDto.title, reviewDto.review),
             date = mapReviewDate(reviewDto.date),
             author = reviewDto.author
@@ -72,20 +72,6 @@ class Mapper {
                     name = trailerDto.name ?: UNDEFINED_STRING_FIELD
                 )
             )
-        }
-    }
-
-    private fun mapReviewType(type: String): ReviewType {
-        return when (type) {
-            "Позитивный" -> {
-                ReviewType.TYPE_POSITIVE
-            }
-            "Негативный" -> {
-                ReviewType.TYPE_NEGATIVE
-            }
-            else -> {
-                ReviewType.TYPE_NEUTRAL
-            }
         }
     }
 

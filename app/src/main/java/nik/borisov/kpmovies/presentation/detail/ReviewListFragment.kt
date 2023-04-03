@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -126,10 +127,10 @@ class ReviewListFragment : Fragment() {
         private const val REVIEW_TAG = "review_fragment"
 
         fun newInstance(movieName: String, movieId: Int) = ReviewListFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_MOVIE_NAME, movieName)
-                putInt(ARG_MOVIE_ID, movieId)
-            }
+            arguments = bundleOf(
+                ARG_MOVIE_NAME to movieName,
+                ARG_MOVIE_ID to movieId
+            )
         }
     }
 }

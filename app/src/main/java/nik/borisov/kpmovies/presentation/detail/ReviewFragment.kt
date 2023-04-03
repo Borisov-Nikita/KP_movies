@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import nik.borisov.kpmovies.databinding.FragmentReviewBinding
 import nik.borisov.kpmovies.domain.entities.Review
@@ -62,11 +63,10 @@ class ReviewFragment : Fragment() {
 
         private const val ARG_REVIEW = "review"
 
-        //TODO use capacity or use extension bundleOf(...)
         fun newInstance(review: Review) = ReviewFragment().apply {
-            arguments = Bundle().apply {
-                putSerializable(ARG_REVIEW, review)
-            }
+            arguments = bundleOf(
+                ARG_REVIEW to review
+            )
         }
     }
 }

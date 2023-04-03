@@ -7,8 +7,8 @@ import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import nik.borisov.kpmovies.data.network.ApiFactory
-import nik.borisov.kpmovies.data.network.MoviePreviewPagingSource
-import nik.borisov.kpmovies.data.network.ReviewPagingSource
+import nik.borisov.kpmovies.data.network.pagingsources.MoviePreviewPagingSource
+import nik.borisov.kpmovies.data.network.pagingsources.ReviewPagingSource
 import nik.borisov.kpmovies.domain.entities.Movie
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.entities.Review

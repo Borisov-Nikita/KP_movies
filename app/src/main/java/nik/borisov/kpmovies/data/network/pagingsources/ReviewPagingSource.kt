@@ -1,7 +1,8 @@
-package nik.borisov.kpmovies.data.network
+package nik.borisov.kpmovies.data.network.pagingsources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import nik.borisov.kpmovies.data.network.ApiService
 import nik.borisov.kpmovies.data.network.models.ReviewDto
 
 class ReviewPagingSource(

@@ -32,6 +32,9 @@ fun setupReviewType(imageView: ImageView, type: ReviewType) {
         ReviewType.TYPE_NEUTRAL -> {
             R.drawable.rating_gray
         }
+        ReviewType.TYPE_UNDEFINED -> {
+            R.drawable.rating_gray
+        }
     }
     val background = ContextCompat.getDrawable(imageView.context, backgroundId)
     imageView.background = background

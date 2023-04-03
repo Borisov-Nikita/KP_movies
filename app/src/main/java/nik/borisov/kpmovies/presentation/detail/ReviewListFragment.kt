@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.databinding.FragmentReviewListBinding
-import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
-import nik.borisov.kpmovies.utils.DataResult
 
 class ReviewListFragment : Fragment() {
 
@@ -49,7 +50,7 @@ class ReviewListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        observeViewModel()
+        collectReviews()
         setupView()
         setupClickListener()
     }
@@ -89,30 +90,12 @@ class ReviewListFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
-        reviewsAdapter.onReachEndListener = {
-            viewModel.getReviews(movieId)
-        }
     }
 
-    private fun observeViewModel() {
-        viewModel.getReviews(movieId)
-        viewModel.reviews.observe(viewLifecycleOwner) {
-            setupViewByDataResult(it)
-        }
-    }
-
-    private fun setupViewByDataResult(
-        result: DataResult<List<Review>>
-    ) {
-        when (result) {
-            is DataResult.Success -> {
-                reviewsAdapter.submitList(result.data)
-            }
-            is DataResult.Error -> {
-
-            }
-            is DataResult.Loading -> {
-
+    private fun collectReviews() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getReviews(movieId).collectLatest {
+                reviewsAdapter.submitData(it)
             }
         }
     }
@@ -120,7 +103,6 @@ class ReviewListFragment : Fragment() {
     private fun setupView() {
         binding.tvMovieName.text = moveName
     }
-
 
     private fun setupClickListener() {
         reviewsAdapter.onReviewClickListener = {

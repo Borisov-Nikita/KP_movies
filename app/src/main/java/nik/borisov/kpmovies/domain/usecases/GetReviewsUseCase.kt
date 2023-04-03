@@ -1,14 +1,15 @@
 package nik.borisov.kpmovies.domain.usecases
 
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import nik.borisov.kpmovies.domain.entities.Review
 import nik.borisov.kpmovies.domain.repositories.Repository
-import nik.borisov.kpmovies.utils.DataResult
 
 class GetReviewsUseCase(
     private val repository: Repository
 ) {
 
-    suspend fun getReviews(movieId: Int, page: Int): DataResult<List<Review>> {
-        return repository.getReviews(movieId, page)
+    fun getReviews(movieId: Int): Flow<PagingData<Review>> {
+        return repository.getReviews(movieId)
     }
 }

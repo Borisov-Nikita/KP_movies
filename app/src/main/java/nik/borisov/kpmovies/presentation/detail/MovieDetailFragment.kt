@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,7 @@ import com.bumptech.glide.Glide
 import nik.borisov.kpmovies.R
 import nik.borisov.kpmovies.databinding.FragmentMovieDetailBinding
 import nik.borisov.kpmovies.domain.entities.Movie
-import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsAdapter
+import nik.borisov.kpmovies.presentation.detail.adapters.ReviewsPreviewAdapter
 import nik.borisov.kpmovies.presentation.detail.adapters.TrailersAdapter
 import nik.borisov.kpmovies.utils.DataResult
 
@@ -28,7 +29,7 @@ class MovieDetailFragment : Fragment() {
         get() = _binding ?: throw NullPointerException("FragmentMovieDetailBinding is null")
 
     private val trailersAdapter = TrailersAdapter()
-    private val reviewsAdapter = ReviewsAdapter()
+    private val reviewsAdapter = ReviewsPreviewAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,10 +72,15 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.getMovie(getMovieId())
-        viewModel.movie.observe(viewLifecycleOwner) {
-            movie = it.data ?: throw NullPointerException("Data result is null")
-            setupViewByDataResult(it)
+        val movieId = getMovieId()
+        if (movieId == UNDEFINED_ID) {
+            finishFragmentByError()
+        }
+        viewModel.getMovie(movieId)
+        viewModel.movie.observe(viewLifecycleOwner) { dataResult ->
+            if (dataResult.data == null) finishFragmentByError()
+            movie = dataResult.data!!
+            setupViewByDataResult(dataResult)
         }
     }
 
@@ -83,7 +89,7 @@ class MovieDetailFragment : Fragment() {
     ) {
         when (result) {
             is DataResult.Success -> {
-                setupView(result.data ?: throw NullPointerException("Data result is null"))
+                setupView(result.data!!)
                 trailersAdapter.submitList(result.data.trailers)
                 reviewsAdapter.submitList(result.data.reviews)
             }
@@ -140,13 +146,18 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
-    //TODO need use kt arguments
     private fun getMovieId(): Int {
-        return requireArguments().getInt(ARG_MOVIE_ID)
+        return arguments?.getInt(ARG_MOVIE_ID) ?: UNDEFINED_ID
+    }
+
+    private fun finishFragmentByError() {
+        Toast.makeText(context, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show()
+        activity?.supportFragmentManager?.popBackStack()
     }
 
     companion object {
 
+        private const val UNDEFINED_ID = -1
         private const val MIN_IN_HOUR = 60
         private const val ARG_MOVIE_ID = "movie_id"
         private const val REVIEW_TAG = "review_fragment"

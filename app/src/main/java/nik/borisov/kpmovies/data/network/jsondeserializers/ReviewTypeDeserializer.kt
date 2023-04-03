@@ -14,9 +14,7 @@ class ReviewTypeDeserializer : JsonDeserializer<ReviewType> {
         context: JsonDeserializationContext?
     ): ReviewType {
 
-        val value = json?.asString
-
-        return when(value) {
+        return when(json?.asString) {
             "Позитивный" -> {
                 ReviewType.TYPE_POSITIVE
             }

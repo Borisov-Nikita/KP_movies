@@ -1,6 +1,8 @@
 package nik.borisov.kpmovies.data.network
 
 import com.google.gson.GsonBuilder
+import nik.borisov.kpmovies.domain.MovieType
+import nik.borisov.kpmovies.data.network.jsondeserializers.MovieTypeDeserializer
 import nik.borisov.kpmovies.data.network.jsondeserializers.ReviewTypeDeserializer
 import nik.borisov.kpmovies.domain.ReviewType
 import okhttp3.OkHttpClient
@@ -29,6 +31,7 @@ object ApiFactory {
 
     private fun createGson() = GsonBuilder()
         .registerTypeAdapter(ReviewType::class.java, ReviewTypeDeserializer())
+        .registerTypeAdapter(MovieType::class.java, MovieTypeDeserializer())
         .serializeNulls()
         .create()
 

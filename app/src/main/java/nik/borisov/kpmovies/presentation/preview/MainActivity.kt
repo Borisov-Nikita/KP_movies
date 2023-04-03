@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import nik.borisov.kpmovies.data.MovieType
+import nik.borisov.kpmovies.domain.MovieType
 import nik.borisov.kpmovies.databinding.ActivityMainBinding
 import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
 import nik.borisov.kpmovies.presentation.preview.adapters.MoviesPreviewAdapter

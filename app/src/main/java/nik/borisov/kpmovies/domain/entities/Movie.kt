@@ -1,9 +1,11 @@
 package nik.borisov.kpmovies.domain.entities
 
+import nik.borisov.kpmovies.domain.MovieType
+
 data class Movie(
     val id: Int,
     val name: String,
-    val type: String,
+    val type: MovieType,
     val year: Int,
     val description: String,
     val rating: Double,

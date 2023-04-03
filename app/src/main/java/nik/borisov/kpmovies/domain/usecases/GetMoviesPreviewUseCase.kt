@@ -2,7 +2,7 @@ package nik.borisov.kpmovies.domain.usecases
 
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
-import nik.borisov.kpmovies.data.MovieType
+import nik.borisov.kpmovies.domain.MovieType
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.repositories.Repository
 

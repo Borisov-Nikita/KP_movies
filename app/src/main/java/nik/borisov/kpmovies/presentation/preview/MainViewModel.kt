@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
-import nik.borisov.kpmovies.data.MovieType
+import nik.borisov.kpmovies.domain.MovieType
 import nik.borisov.kpmovies.data.RepositoryImpl
 import nik.borisov.kpmovies.domain.entities.MoviePreview
 import nik.borisov.kpmovies.domain.usecases.GetMoviesPreviewUseCase

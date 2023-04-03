@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import nik.borisov.kpmovies.R
-import nik.borisov.kpmovies.data.MovieType
+import nik.borisov.kpmovies.domain.MovieType
 import nik.borisov.kpmovies.databinding.ActivityCategoryPreviewBinding
 import nik.borisov.kpmovies.presentation.detail.MovieDetailActivity
 import nik.borisov.kpmovies.presentation.preview.adapters.CategoryPreviewAdapter
@@ -82,6 +82,7 @@ class CategoryPreviewActivity : AppCompatActivity() {
             MovieType.TYPE_ANIMATED_SERIES -> {
                 collectMoviesPreviewByType(MovieType.TYPE_ANIMATED_SERIES)
             }
+            MovieType.TYPE_UNDEFINED -> {}
         }
     }
 
@@ -100,6 +101,7 @@ class CategoryPreviewActivity : AppCompatActivity() {
             MovieType.TYPE_CARTOON -> getString(R.string.cartoons)
             MovieType.TYPE_ANIME -> getString(R.string.anime)
             MovieType.TYPE_ANIMATED_SERIES -> getString(R.string.animated_series)
+            MovieType.TYPE_UNDEFINED -> ""
         }
     }
 
